@@ -21,7 +21,7 @@
 size_t	ft_strlen(const char *s);
 
 int		ft_atoi(const char *nptr);
-int		ft_atoi_base(unsigned char *str, int str_base);
+int 	ft_isdigit(int c);
 
 char	*ft_strjoin(char const *s1, char const *s2);
 

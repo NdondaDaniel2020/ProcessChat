@@ -48,7 +48,7 @@ void	send_sms(pid_t pid, char *sms)
 	exit(1);
 }
 
-static void	check_is_number(char *num_in_char)
+static int	check_is_number(char *num_in_char)
 {
 	int	i;
 
@@ -61,11 +61,10 @@ static void	check_is_number(char *num_in_char)
 				&& (i == 0 || num_in_char[i - 1] == ' ')
 				&& ft_isdigit(num_in_char[i + 1]))
 				return (1);
-			else
-				return (0);
 		}
 		i++;
 	}
+	return (0);
 }
 
 int	main(int ac, char **av)

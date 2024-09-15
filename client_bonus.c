@@ -52,7 +52,7 @@ void	send_sms(pid_t pid, char *sms)
 	}
 }
 
-static void	check_is_number(char *num_in_char)
+static int	check_is_number(char *num_in_char)
 {
 	int	i;
 
@@ -65,11 +65,10 @@ static void	check_is_number(char *num_in_char)
 				&& (i == 0 || num_in_char[i - 1] == ' ')
 				&& ft_isdigit(num_in_char[i + 1]))
 				return (1);
-			else
-				return (0);
 		}
 		i++;
 	}
+	return (0);
 }
 
 int	main(int ac, char **av)
@@ -77,6 +76,7 @@ int	main(int ac, char **av)
 	int		value;
 	struct sigaction	sa;
 
+	ft_printf("%i\n\n", check_is_number(av[1]));
 	if (ac == 3 && check_is_number(av[1]))
 	{
 		value = ft_atoi(av[1]);
