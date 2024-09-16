@@ -18,8 +18,8 @@ void	signal_received(int signal)
 {
 	if (signal == SIGUSR2)
 	{
-		ft_printf("Recebido\n");
-		exit(1);
+		g_received = 1;
+		ft_printf("\n");
 	}
 	if (signal == SIGUSR1)
 		g_received = 1;
@@ -52,7 +52,7 @@ void	send_sms(pid_t pid, char *sms)
 	}
 }
 
-static int	check_is_number(char *num_in_char)
+int	check_is_number(char *num_in_char)
 {
 	int	i;
 
@@ -65,31 +65,55 @@ static int	check_is_number(char *num_in_char)
 				&& (i == 0 || num_in_char[i - 1] == ' ')
 				&& ft_isdigit(num_in_char[i + 1]))
 				return (1);
+			else
+				return (0);
 		}
 		i++;
 	}
-	return (0);
+	return (1);
+}
+
+void	error_exit(int server_pid)
+{
+	if (kill(server_pid, 0) != 0)
+	{
+		ft_putstr_fd("\n", 1);
+		exit(1);
+	}
 }
 
 int	main(int ac, char **av)
 {
 	int		value;
+	char	*str;
 	struct sigaction	sa;
 
-	ft_printf("%i\n\n", check_is_number(av[1]));
 	if (ac == 3 && check_is_number(av[1]))
 	{
 		value = ft_atoi(av[1]);
+		str = ft_strjoin(av[2], "\n");
 		sa.sa_handler = signal_received;
 		sa.sa_flags = 0;
 		sigemptyset(&sa.sa_mask);
 		sigaction(SIGUSR1, &sa, NULL);
 		sigaction(SIGUSR2, &sa, NULL);
-		send_sms(value, ft_strjoin(av[2], "\n"));
+		error_exit(value);
+		send_sms(value, str);
 		while (1)
-			pause();
+		{
+			str = get_next_line(0);
+			if (str[0] == '\0' || str[0] == '\n')
+			{
+				free(str);
+				exit(1);
+			}
+			else
+				send_sms(value, str);
+			
+			free(str);
+		}
 	}
 	else
-		ft_printf("FALHA NOS ARGUMENTOD PASSADOS\n");
+		ft_printf("ERROR\n");
 	return (0);
 }

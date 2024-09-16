@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmatondo <nmatondo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 12:24:33 by nmatondo          #+#    #+#             */
-/*   Updated: 2024/07/10 15:35:58 by nmatondo         ###   ########.fr       */
+/*   Created: 2024/05/15 12:12:18 by nmatondo          #+#    #+#             */
+/*   Updated: 2024/05/15 13:07:39 by nmatondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_BONUS_H
-# define MINITALK_BONUS_H
+#include "libft.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
-# include "./libft/libft.h"
-
-typedef struct s_list_client
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-    char    *client[INT_MAX];
-}           t_list_client;
+	unsigned char	*src;
 
-void	sigusr_handler(int sig, siginfo_t *info, void *context);
-void	send_sms(pid_t pid, char *sms);
-
-#endif
+	src = (unsigned char *)s;
+	while (n)
+	{
+		if ((unsigned char)c == *src)
+			return ((void *)src);
+		++src;
+		n--;
+	}
+	return (NULL);
+}

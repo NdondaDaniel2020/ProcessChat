@@ -14,7 +14,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 SERVER = server
- CLIENTE = client
+CLIENTE = client
 HEDER = minitalk
 
 SRCS = ./libft/*.c
@@ -36,8 +36,8 @@ m: $(MINITALK)
 	make clean
 
 b: $(MINITALK)
-	$(CC) $(CFLAGS) $(CLIENTE)_bonus.c $(HEDER)_bonus.h $(MINITALK) -o $(CLIENTE)
-	$(CC) $(CFLAGS) $(SERVER)_bonus.c $(HEDER)_bonus.h $(MINITALK) -o $(SERVER)
+	$(CC) $(CFLAGS) $(CLIENTE)_bonus.c util.c $(HEDER)_bonus.h $(MINITALK) -o $(CLIENTE)
+	$(CC) $(CFLAGS) $(SERVER)_bonus.c util.c $(HEDER)_bonus.h $(MINITALK) -o $(SERVER)
 	make clean
 
 n:

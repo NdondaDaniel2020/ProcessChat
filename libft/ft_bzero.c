@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmatondo <nmatondo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 12:24:33 by nmatondo          #+#    #+#             */
-/*   Updated: 2024/07/10 15:35:58 by nmatondo         ###   ########.fr       */
+/*   Created: 2024/05/14 15:07:07 by nmatondo          #+#    #+#             */
+/*   Updated: 2024/05/15 12:08:25 by nmatondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_BONUS_H
-# define MINITALK_BONUS_H
+#include "libft.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
-# include "./libft/libft.h"
-
-typedef struct s_list_client
+void	ft_bzero(void *s, size_t n)
 {
-    char    *client[INT_MAX];
-}           t_list_client;
+	unsigned char	*st;
 
-void	sigusr_handler(int sig, siginfo_t *info, void *context);
-void	send_sms(pid_t pid, char *sms);
-
-#endif
+	st = (unsigned char *)s;
+	while (n--)
+		*st++ = '\0';
+}

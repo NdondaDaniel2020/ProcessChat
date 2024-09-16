@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmatondo <nmatondo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 12:24:33 by nmatondo          #+#    #+#             */
-/*   Updated: 2024/07/10 15:35:58 by nmatondo         ###   ########.fr       */
+/*   Created: 2024/05/14 11:24:02 by nmatondo          #+#    #+#             */
+/*   Updated: 2024/05/24 12:55:45 by nmatondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_BONUS_H
-# define MINITALK_BONUS_H
+#include "libft.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
-# include "./libft/libft.h"
-
-typedef struct s_list_client
+int	ft_isascii(int c)
 {
-    char    *client[INT_MAX];
-}           t_list_client;
-
-void	sigusr_handler(int sig, siginfo_t *info, void *context);
-void	send_sms(pid_t pid, char *sms);
-
-#endif
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
+}

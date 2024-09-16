@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmatondo <nmatondo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/04 12:24:33 by nmatondo          #+#    #+#             */
-/*   Updated: 2024/07/10 15:35:58 by nmatondo         ###   ########.fr       */
+/*   Created: 2024/05/15 08:28:46 by nmatondo          #+#    #+#             */
+/*   Updated: 2024/05/24 13:03:11 by nmatondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_BONUS_H
-# define MINITALK_BONUS_H
+#include "libft.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
-# include "./libft/libft.h"
-
-typedef struct s_list_client
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-    char    *client[INT_MAX];
-}           t_list_client;
+	unsigned char	*de;
+	unsigned char	*sr;
 
-void	sigusr_handler(int sig, siginfo_t *info, void *context);
-void	send_sms(pid_t pid, char *sms);
-
-#endif
+	de = (unsigned char *)dest;
+	sr = (unsigned char *)src;
+	if (!dest && !src)
+		return (dest);
+	if (src < dest)
+	{
+		while (n--)
+			de[n] = sr[n];
+	}
+	else
+	{
+		while (n--)
+			*de++ = *sr++;
+	}
+	return (dest);
+}
