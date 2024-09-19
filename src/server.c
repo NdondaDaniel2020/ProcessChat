@@ -18,6 +18,57 @@
 
 volatile t_list_client g_list;
 
+char	*ft_charjoin(char *s1, char c, int l2)
+{
+	char	*join;
+	int		l1;
+	int		i;
+
+	if (!s1 && !c)
+		return (NULL);
+	i = 0;
+	l1 = ft_strlen(s1);
+	join = malloc((l1 + l2 + 1) * sizeof(char));
+	if (!join)
+		return (NULL);
+	while (i < (l1 + l2))
+	{
+		if (i < l1)
+			join[i] = s1[i];
+		else
+			join[i] = c;
+		i++;
+	}
+	join[i] = '\0';
+	return (join);
+}
+
+char	*ft_charjoin_free(char *s1, char c, int l2)
+{
+	char	*join;
+	int		l1;
+	int		i;
+
+	if (!s1 && !c)
+		return (NULL);
+	i = 0;
+	l1 = ft_strlen(s1);
+	join = malloc((l1 + l2 + 1) * sizeof(char));
+	if (!join)
+		return (NULL);
+	while (i < (l1 + l2))
+	{
+		if (i < l1)
+			join[i] = s1[i];
+		else
+			join[i] = c;
+		i++;
+	}
+	join[i] = '\0';
+	free(s1);
+	return (join);
+}
+
 void	init_list_client(void)
 {
 	int	i;
@@ -73,9 +124,9 @@ void	sigusr_handler(int sig, siginfo_t *info, void *ucontext)
     {
         printf("%c", cha);
 		if (!inf)
-			ft_strjoin(inf, (char *)cha);
+			ft_charjoin(inf, cha, 1);
 		else
-			ft_strjoin_free(inf, (char *)cha);
+			ft_charjoin_free(inf, cha, 1);
 	
         if (cha == '\0')
         {
