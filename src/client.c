@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_bonus.c                                     :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmatondo <nmatondo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 12:32:41 by nmatondo          #+#    #+#             */
-/*   Updated: 2024/07/11 13:10:33 by nmatondo         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:30:52 by nmatondo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk_bonus.h"
+#include "minitalk.h"
 
 volatile sig_atomic_t	g_received = 0;
 
@@ -109,7 +109,6 @@ int	main(int ac, char **av)
 			}
 			else
 				send_sms(value, str);
-			
 			free(str);
 		}
 	}

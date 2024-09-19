@@ -13,32 +13,22 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
+INCLUDE = ./include/
 SERVER = server
 CLIENTE = client
-HEDER = minitalk
+LIBFT = ./libft/libft.a
 
-SRCS = ./libft/*.c
-OBJS = *.o
-MINITALK = minitalk.a
+all: $(CLIENTE)
 
+$(LIBFT):
+	$(MAKE) bonus -C ./libft/
 
-all: $(MINITALK)
+$(CLIENTE):	$(LIBFT)
+	$(CC) $(CFLAGS) ./src/$(CLIENTE).c $(LIBFT) -I$(INCLUDE) -o $(CLIENTE)
+	$(CC) $(CFLAGS) ./src/$(SERVER).c  $(LIBFT) -I$(INCLUDE) -o $(SERVER)
 
-$(MINITALK):
-	$(CC) $(CFLAGS) -c $(SRCS)
-	ar rc $(MINITALK) $(OBJS)
-
-bonus:	all
-
-m: $(MINITALK)
-	$(CC) $(CFLAGS) $(CLIENTE).c $(HEDER).h $(MINITALK) -o $(CLIENTE)
-	$(CC) $(CFLAGS) $(SERVER).c $(HEDER).h $(MINITALK) -o $(SERVER)
-	make clean
-
-b: $(MINITALK)
-	$(CC) $(CFLAGS) $(CLIENTE)_bonus.c util.c $(HEDER)_bonus.h $(MINITALK) -o $(CLIENTE)
-	$(CC) $(CFLAGS) $(SERVER)_bonus.c util.c $(HEDER)_bonus.h $(MINITALK) -o $(SERVER)
-	make clean
+m: $(CLIENTE)
+	# make clean
 
 n:
 	norminette .
@@ -48,10 +38,8 @@ clean:
 
 fclean: clean
 	rm -f $(SERVER)
-
-eclean: fclean
-	rm -f $(MINITALK)
 	rm -f $(CLIENTE)
+	$(MAKE) fclean -C ./libft/
 
 re: fclean all
 
