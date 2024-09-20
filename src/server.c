@@ -18,57 +18,6 @@
 
 volatile t_list_client g_list;
 
-char	*ft_charjoin(char *s1, char c, int l2)
-{
-	char	*join;
-	int		l1;
-	int		i;
-
-	if (!s1 && !c)
-		return (NULL);
-	i = 0;
-	l1 = ft_strlen(s1);
-	join = malloc((l1 + l2 + 1) * sizeof(char));
-	if (!join)
-		return (NULL);
-	while (i < (l1 + l2))
-	{
-		if (i < l1)
-			join[i] = s1[i];
-		else
-			join[i] = c;
-		i++;
-	}
-	join[i] = '\0';
-	return (join);
-}
-
-char	*ft_charjoin_free(char *s1, char c, int l2)
-{
-	char	*join;
-	int		l1;
-	int		i;
-
-	if (!s1 && !c)
-		return (NULL);
-	i = 0;
-	l1 = ft_strlen(s1);
-	join = malloc((l1 + l2 + 1) * sizeof(char));
-	if (!join)
-		return (NULL);
-	while (i < (l1 + l2))
-	{
-		if (i < l1)
-			join[i] = s1[i];
-		else
-			join[i] = c;
-		i++;
-	}
-	join[i] = '\0';
-	free(s1);
-	return (join);
-}
-
 void	init_list_client(void)
 {
 	int	i;
@@ -77,12 +26,24 @@ void	init_list_client(void)
 	while (i < 32768)
 	{
 		g_list.pid[i] = 0;
-		g_list.client[i] = 0;
 		i++;
 	}
 }
 
-void	add_client_in_list(pid_t pid, char *name)
+void	list_client(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 32768)
+	{
+		if (g_list.pid[i] != 0)
+			ft_printf("[%i]\n", g_list.pid[i]);
+		i++;
+	}
+}
+
+void	add_client_in_list(pid_t pid)
 {
 	int	i;
 	int	pos;
@@ -104,17 +65,13 @@ void	add_client_in_list(pid_t pid, char *name)
 	}
 	if (pos == -1)
 		return ;
-
-	pid[pos] = pid;
-    *client[pos] = ft_strdup(name);
-	name = NULL;
+	g_list.pid[pos] = pid;
 }
 
 void	sigusr_handler(int sig, siginfo_t *info, void *ucontext)
 {
     static int  i = 0;
     static char cha = 0;
-	static char *inf = NULL;
 
     (void)ucontext;
     cha <<= 1;
@@ -123,14 +80,11 @@ void	sigusr_handler(int sig, siginfo_t *info, void *ucontext)
     if (i == 8)
     {
         printf("%c", cha);
-		if (!inf)
-			ft_charjoin(inf, cha, 1);
-		else
-			ft_charjoin_free(inf, cha, 1);
 	
         if (cha == '\0')
         {
-			add_client_in_list(info->si_pid, inf);
+			list_client();
+			add_client_in_list(info->si_pid);
             kill(info->si_pid, SIGUSR2);
         }
         i = 0;
@@ -154,4 +108,3 @@ int main(void)
         pause();
     return (0);
 }
-

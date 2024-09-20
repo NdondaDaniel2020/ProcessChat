@@ -18,20 +18,26 @@ SERVER = server
 CLIENTE = client
 LIBFT = ./libft/libft.a
 
+R = ./src/rascunho.c
+
 all: $(CLIENTE)
 
 $(LIBFT):
 	$(MAKE) bonus -C ./libft/
 
 $(CLIENTE):	$(LIBFT)
-	$(CC) $(CFLAGS) ./src/$(CLIENTE).c $(LIBFT) -I$(INCLUDE) -o $(CLIENTE)
+	$(CC) $(CFLAGS) ./src/$(CLIENTE).c ./src/util.c $(LIBFT) -I$(INCLUDE) -o $(CLIENTE)
 	$(CC) $(CFLAGS) ./src/$(SERVER).c  $(LIBFT) -I$(INCLUDE) -o $(SERVER)
 
-m: $(CLIENTE)
-	# make clean
+
+
+r:
+	$(CC) $(R) $(LIBFT) -I$(INCLUDE) -o ./r
+
 
 n:
 	norminette .
+
 
 clean:
 	rm -f *.o
@@ -43,7 +49,5 @@ fclean: clean
 
 re: fclean all
 
-r: eclean m
-	clear
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re r

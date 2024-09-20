@@ -50,6 +50,7 @@ void	send_sms(pid_t pid, char *sms)
 			break ;
 		++sms;
 	}
+	free(sms);
 }
 
 int	check_is_number(char *num_in_char)
@@ -85,31 +86,32 @@ void	error_exit(int server_pid)
 int	main(int ac, char **av)
 {
 	int		value;
-	char	*str;
+	char	*name;
+	char	*sms;
 	struct sigaction	sa;
 
 	if (ac == 3 && check_is_number(av[1]))
 	{
 		value = ft_atoi(av[1]);
-		str = ft_strjoin(av[2], "\n");
+		name = ft_strjoin(av[2], "\n");
 		sa.sa_handler = signal_received;
 		sa.sa_flags = 0;
 		sigemptyset(&sa.sa_mask);
 		sigaction(SIGUSR1, &sa, NULL);
 		sigaction(SIGUSR2, &sa, NULL);
 		error_exit(value);
-		send_sms(value, str);
+		send_sms(value, name);
 		while (1)
 		{
-			str = get_next_line(0);
-			if (str[0] == '\0' || str[0] == '\n')
+			sms = get_next_line(0);
+			if (sms[0] == '\0' || sms[0] == '\n')
 			{
-				free(str);
+				free(sms);
 				exit(1);
 			}
 			else
-				send_sms(value, str);
-			free(str);
+				send_sms(value, format_message(name, sms));
+			free(sms);
 		}
 	}
 	else
